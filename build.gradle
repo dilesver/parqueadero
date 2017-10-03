@@ -30,3 +30,20 @@ dependencies {
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+jar {
+	baseName = 'parqueadero-backend'
+	version = version
+	manifest {
+		attributes 'Impementation-Title': 'Parqueadero Backend',
+				   'Impementation-Version': version
+	}
+}
+
+test {
+	jacoco {
+		append = false
+		destinationFile = file('jacoco/jacocoTest.exec')
+	}
+	reports.junitXml.destination = file('jacoco/test-results')
+}
