@@ -3,11 +3,11 @@ package co.com.ceiba.parqueadero.dominio;
 public class Vehiculo {
 	private String tipo;
 	private String placa;
-	private int cilindrada;
+	private Integer cilindrada;
 	
-	public Vehiculo(String tipo, String placa, int cilindrada) {
-		this.tipo = tipo;
-		this.placa = placa;
+	public Vehiculo(String tipo, String placa, Integer cilindrada) {
+		this.tipo = tipo.toUpperCase();
+		this.placa = placa.toUpperCase();
 		this.cilindrada = cilindrada;
 	}
 
@@ -16,7 +16,7 @@ public class Vehiculo {
 	}
 
 	public void setTipo(String tipo) {
-		this.tipo = tipo;
+		this.tipo = tipo.toUpperCase();
 	}
 
 	public String getPlaca() {
@@ -24,14 +24,14 @@ public class Vehiculo {
 	}
 
 	public void setPlaca(String placa) {
-		this.placa = placa;
+		this.placa = placa.toUpperCase();
 	}
 
-	public int getCilindrada() {
+	public Integer getCilindrada() {
 		return cilindrada;
 	}
 
-	public void setCilindrada(int cilindrada) {
+	public void setCilindrada(Integer cilindrada) {
 		this.cilindrada = cilindrada;
 	}
 }
