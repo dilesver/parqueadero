@@ -3,15 +3,45 @@ package co.com.ceiba.parqueadero.dominio;
 import java.util.Date;
 
 public class Parqueo {
+	private Long id;
 	private Vehiculo vehiculo;
 	private Date fechaEntrada;
 	private Date fechaSalida;
 	private String duracion;
-	private int valor;
+	private Integer valor;
+	
+	public Parqueo() {
+		
+	}
 	
 	public Parqueo(Vehiculo vehiculo, Date fechaEntrada) {
 		this.vehiculo = vehiculo;
+		this.fechaEntrada = (fechaEntrada == null) ? new Date() : fechaEntrada;
+	}
+	
+	public Parqueo(Vehiculo vehiculo, Date fechaEntrada, Date fechaSalida, String duracion, Integer valor) {
+		this.vehiculo = vehiculo;
 		this.fechaEntrada = fechaEntrada;
+		this.fechaSalida = fechaSalida;
+		this.duracion = duracion;
+		this.valor = valor;
+	}
+	
+	public Parqueo(Long id, Vehiculo vehiculo, Date fechaEntrada, Date fechaSalida, String duracion, Integer valor) {
+		this.id = id;
+		this.vehiculo = vehiculo;
+		this.fechaEntrada = fechaEntrada;
+		this.fechaSalida = fechaSalida;
+		this.duracion = duracion;
+		this.valor = valor;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Vehiculo getVehiculo() {
@@ -46,11 +76,11 @@ public class Parqueo {
 		this.duracion = duracion;
 	}
 
-	public int getValor() {
+	public Integer getValor() {
 		return valor;
 	}
 
-	public void setValor(int valor) {
+	public void setValor(Integer valor) {
 		this.valor = valor;
 	}	
 }

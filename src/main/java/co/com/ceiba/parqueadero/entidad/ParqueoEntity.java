@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 
 @Entity
 @Table(name = "parqueos")
@@ -22,6 +24,7 @@ public class ParqueoEntity {
 	private VehiculoEntity vehiculo;
 	
 	@Column(nullable = false)
+	@CreationTimestamp
 	private Date fechaEntrada;
 	
 	@Column(nullable = true)
@@ -31,7 +34,7 @@ public class ParqueoEntity {
 	private String duracion;
 	
 	@Column(nullable = true)
-	private int valor;
+	private Integer valor;
 
 	public Long getId() {
 		return id;
@@ -73,11 +76,11 @@ public class ParqueoEntity {
 		this.duracion = duracion;
 	}
 
-	public int getValor() {
+	public Integer getValor() {
 		return valor;
 	}
 
-	public void setValor(int valor) {
+	public void setValor(Integer valor) {
 		this.valor = valor;
 	}
 }
