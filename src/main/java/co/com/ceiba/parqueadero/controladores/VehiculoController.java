@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.com.ceiba.parqueadero.dao.VehiculoDao;
+import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.entidad.VehiculoEntity;
+import co.com.ceiba.parqueadero.repositorio.VehiculoRepositorio;
 
 @Controller
 @RequestMapping(path="/vehiculos")
@@ -25,17 +27,18 @@ public class VehiculoController {
 	private VehiculoDao vehiculoDao;
 	
 	@PostMapping
-	public ResponseEntity<VehiculoEntity> create (@RequestBody VehiculoEntity vehiculo) {	
+	public ResponseEntity<Vehiculo> create (@RequestBody Vehiculo vehiculo) {	
 		
-		vehiculoDao.save(vehiculo);
+		VehiculoEntity entity = VehiculoRepositorio.convertirAEntity(vehiculo);
+		vehiculoDao.save(entity);
 		
-		return new ResponseEntity<>(vehiculo, HttpStatus.CREATED);
+		return new ResponseEntity<>(VehiculoRepositorio.convertirADominio(entity), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(params= {"id"})
-	public ResponseEntity<VehiculoEntity> edit (@RequestParam Long id) {
+	public ResponseEntity<Vehiculo> recovery (@RequestParam Long id) {
 		
-		VehiculoEntity vehiculo = vehiculoDao.findOne(id);
+		Vehiculo vehiculo = VehiculoRepositorio.convertirADominio(vehiculoDao.findOne(id));
 		
 		if (vehiculo == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -45,40 +48,40 @@ public class VehiculoController {
 	}
 	
 	@PutMapping(path="/{id}")
-	public ResponseEntity<VehiculoEntity> update (@PathVariable Long id, @RequestBody VehiculoEntity vehiculo) {	
+	public ResponseEntity<Vehiculo> update (@PathVariable Long id, @RequestBody Vehiculo vehiculo) {	
 		
-		VehiculoEntity vehiculoEntity = vehiculoDao.findOne(id);
+		VehiculoEntity entity = vehiculoDao.findOne(id);
 		
-		if (vehiculoEntity == null) {
+		if (entity == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		vehiculoEntity.setTipo(vehiculo.getTipo().toUpperCase());
-		vehiculoEntity.setPlaca(vehiculo.getPlaca().toUpperCase());
-		vehiculoEntity.setCilindrada(vehiculo.getCilindrada());
-		vehiculoDao.save(vehiculoEntity);
+		entity.setTipo(vehiculo.getTipo().toUpperCase());
+		entity.setPlaca(vehiculo.getPlaca().toUpperCase());
+		entity.setCilindrada(vehiculo.getCilindrada());
+		vehiculoDao.save(entity);
 		
-		return new ResponseEntity<>(vehiculo, HttpStatus.OK);
+		return new ResponseEntity<>(VehiculoRepositorio.convertirADominio(entity), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path="/{id}")
-	public ResponseEntity<VehiculoEntity> delete (@PathVariable Long id) {	
+	public ResponseEntity<Vehiculo> delete (@PathVariable Long id) {	
 		
-		VehiculoEntity vehiculoEntity = vehiculoDao.findOne(id);
+		VehiculoEntity entity = vehiculoDao.findOne(id);
 		
-		if (vehiculoEntity == null) {
+		if (entity == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		vehiculoDao.delete(vehiculoEntity);
+		vehiculoDao.delete(entity);
 		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@GetMapping(params= {"placa"})
-	public ResponseEntity<VehiculoEntity> getByPlaca (@RequestParam String placa) {
+	public ResponseEntity<Vehiculo> getByPlaca (@RequestParam String placa) {
 		
-		VehiculoEntity vehiculo = vehiculoDao.findByPlaca(placa.toUpperCase());
+		Vehiculo vehiculo = VehiculoRepositorio.convertirADominio(vehiculoDao.findByPlaca(placa.toUpperCase()));
 		
 		if (vehiculo == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
