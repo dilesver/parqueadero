@@ -27,7 +27,7 @@ public class VehiculoController {
 	private VehiculoDao vehiculoDao;
 	
 	@PostMapping
-	public ResponseEntity<Vehiculo> create (@RequestBody Vehiculo vehiculo) {	
+	public ResponseEntity<Vehiculo> create (@RequestBody Vehiculo vehiculo) {
 		
 		VehiculoEntity entity = VehiculoRepositorio.convertirAEntity(vehiculo);
 		vehiculoDao.save(entity);
