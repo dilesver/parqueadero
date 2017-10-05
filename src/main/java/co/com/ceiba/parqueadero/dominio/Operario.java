@@ -1,47 +1,31 @@
 package co.com.ceiba.parqueadero.dominio;
 
+import java.util.Date;
+
+import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioParqueo;
+import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
+
 public class Operario {
-	private String documento;
-	private String nombre;
-	private String usuario;
-	private String clave;
+	private RepositorioVehiculo repositorioVehiculo;
+	private RepositorioParqueo repositorioParqueo;
 	
-	public Operario(String documento, String nombre, String usuario, String clave) {
-		this.documento = documento;
-		this.nombre = nombre;
-		this.usuario = usuario;
-		this.clave = clave;
+	public Operario(RepositorioVehiculo repositorioVehiculo, RepositorioParqueo repositorioParqueo) {
+		this.repositorioVehiculo = repositorioVehiculo;
+		this.repositorioParqueo = repositorioParqueo;
 	}
 	
-	public String getDocumento() {
-		return documento;
+	public boolean entradaVehiculoParqueadero(Vehiculo vehiculo, Date fechaEntrada) {
+		
+		if (vehiculoRegistrado(vehiculo) && repositorioParqueo.obtenerVehiculoParqueadoPorPlaca(vehiculo.getPlaca()) != null) {
+			Parqueo parqueo = new Parqueo(vehiculo, fechaEntrada);
+			
+			return repositorioParqueo.entrada(parqueo);
+		}
+		
+		return false;
 	}
 	
-	public void setDocumento(String documento) {
-		this.documento = documento;
-	}
-	
-	public String getNombre() {
-		return nombre;
-	}
-	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	public String getUsuario() {
-		return usuario;
-	}
-	
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-	
-	public String getClave() {
-		return clave;
-	}
-	
-	public void setClave(String clave) {
-		this.clave = clave;
+	public boolean vehiculoRegistrado(Vehiculo vehiculo) {
+		return (repositorioVehiculo.obtenerPorPlaca(vehiculo.getPlaca()) != null);
 	}
 }

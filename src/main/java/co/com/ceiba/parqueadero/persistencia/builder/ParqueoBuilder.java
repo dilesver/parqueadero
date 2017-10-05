@@ -1,13 +1,12 @@
-package co.com.ceiba.parqueadero.repositorio;
+package co.com.ceiba.parqueadero.persistencia.builder;
 
 import co.com.ceiba.parqueadero.dominio.Parqueo;
-import co.com.ceiba.parqueadero.entidad.ParqueoEntity;
+import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
 
-public class ParqueoRespositorio {
+public class ParqueoBuilder {
 	public static ParqueoEntity convertirAEntity(Parqueo parqueo) {
 		ParqueoEntity entity = new ParqueoEntity();
-		entity.setId(parqueo.getId());
-		entity.setVehiculo(VehiculoRepositorio.convertirAEntity(parqueo.getVehiculo()));
+		entity.setVehiculo(VehiculoBuilder.convertirAEntity(parqueo.getVehiculo()));
 		entity.setFechaEntrada(parqueo.getFechaEntrada());
 		entity.setFechaSalida(parqueo.getFechaSalida());
 		entity.setDuracion(parqueo.getDuracion());
@@ -20,7 +19,7 @@ public class ParqueoRespositorio {
 		Parqueo parqueo = null;
 		
 		if(entity != null) {
-			parqueo = new Parqueo(entity.getId(), VehiculoRepositorio.convertirADominio(entity.getVehiculo()), entity.getFechaEntrada(), entity.getFechaSalida(), entity.getDuracion(), entity.getValor()); 
+			parqueo = new Parqueo(VehiculoBuilder.convertirADominio(entity.getVehiculo()), entity.getFechaEntrada(), entity.getFechaSalida(), entity.getDuracion(), entity.getValor()); 
 		}
 		
 		return parqueo;

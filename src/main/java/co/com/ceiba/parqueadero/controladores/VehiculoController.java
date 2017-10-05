@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.com.ceiba.parqueadero.dao.VehiculoDao;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
-import co.com.ceiba.parqueadero.entidad.VehiculoEntity;
-import co.com.ceiba.parqueadero.repositorio.VehiculoRepositorio;
+import co.com.ceiba.parqueadero.persistencia.builder.VehiculoBuilder;
+import co.com.ceiba.parqueadero.persistencia.dao.VehiculoDao;
+import co.com.ceiba.parqueadero.persistencia.entidad.VehiculoEntity;
 
 @Controller
 @RequestMapping(path="/vehiculos")
@@ -29,16 +29,16 @@ public class VehiculoController {
 	@PostMapping
 	public ResponseEntity<Vehiculo> create (@RequestBody Vehiculo vehiculo) {
 		
-		VehiculoEntity entity = VehiculoRepositorio.convertirAEntity(vehiculo);
+		VehiculoEntity entity = VehiculoBuilder.convertirAEntity(vehiculo);
 		vehiculoDao.save(entity);
 		
-		return new ResponseEntity<>(VehiculoRepositorio.convertirADominio(entity), HttpStatus.CREATED);
+		return new ResponseEntity<>(VehiculoBuilder.convertirADominio(entity), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(params= {"id"})
 	public ResponseEntity<Vehiculo> recovery (@RequestParam Long id) {
 		
-		Vehiculo vehiculo = VehiculoRepositorio.convertirADominio(vehiculoDao.findOne(id));
+		Vehiculo vehiculo = VehiculoBuilder.convertirADominio(vehiculoDao.findOne(id));
 		
 		if (vehiculo == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -61,7 +61,7 @@ public class VehiculoController {
 		entity.setCilindrada(vehiculo.getCilindrada());
 		vehiculoDao.save(entity);
 		
-		return new ResponseEntity<>(VehiculoRepositorio.convertirADominio(entity), HttpStatus.OK);
+		return new ResponseEntity<>(VehiculoBuilder.convertirADominio(entity), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path="/{id}")
@@ -81,7 +81,7 @@ public class VehiculoController {
 	@GetMapping(params= {"placa"})
 	public ResponseEntity<Vehiculo> getByPlaca (@RequestParam String placa) {
 		
-		Vehiculo vehiculo = VehiculoRepositorio.convertirADominio(vehiculoDao.findByPlaca(placa.toUpperCase()));
+		Vehiculo vehiculo = VehiculoBuilder.convertirADominio(vehiculoDao.findByPlaca(placa.toUpperCase()));
 		
 		if (vehiculo == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

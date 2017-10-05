@@ -1,4 +1,4 @@
-package co.com.ceiba.parquedero.dominio.unitaria;
+package co.com.ceiba.parqueadero.dominio.unitaria;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,17 +14,38 @@ public class VehiculoTest {
 	
 	@Test
 	public void crearVehiculo() {
-		//arange
+		// Arange
 		VehiculoTestDataBuilder vehiculoTestDataBuilder = new VehiculoTestDataBuilder().
 																conTipo(TIPO).conPlaca(PLACA).
 																conCilindrada(CILINDRADA);
 		
-		//act
+		// Act
 		Vehiculo vehiculo = vehiculoTestDataBuilder.build();
 		
-		//assert
+		// Assert
 		assertEquals(TIPO.toUpperCase(), vehiculo.getTipo());
 		assertEquals(PLACA.toUpperCase(), vehiculo.getPlaca());
 		assertEquals(CILINDRADA, vehiculo.getCilindrada());
+	}
+	
+	@Test
+	public void actualizarVehiculo() {
+		// Arange
+		VehiculoTestDataBuilder vehiculoTestDataBuilder = new VehiculoTestDataBuilder().
+																conTipo(TIPO).conPlaca(PLACA).
+																conCilindrada(CILINDRADA);
+		
+		// Act
+		Vehiculo vehiculo1 = vehiculoTestDataBuilder.build();
+		
+		Vehiculo vehiculo2 = new Vehiculo();
+		vehiculo2.setTipo(vehiculo1.getTipo());
+		vehiculo2.setPlaca(vehiculo1.getPlaca());
+		vehiculo2.setCilindrada(vehiculo1.getCilindrada());
+		
+		// Assert
+		assertEquals(vehiculo1.getTipo(), vehiculo2.getTipo());
+		assertEquals(vehiculo1.getPlaca(), vehiculo2.getPlaca());
+		assertEquals(vehiculo1.getCilindrada(), vehiculo2.getCilindrada());
 	}
 }

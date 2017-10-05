@@ -1,12 +1,11 @@
-package co.com.ceiba.parqueadero.repositorio;
+package co.com.ceiba.parqueadero.persistencia.builder;
 
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
-import co.com.ceiba.parqueadero.entidad.VehiculoEntity;
+import co.com.ceiba.parqueadero.persistencia.entidad.VehiculoEntity;
 
-public class VehiculoRepositorio {
+public class VehiculoBuilder {
 	public static VehiculoEntity convertirAEntity(Vehiculo vehiculo) {
 		VehiculoEntity entity = new VehiculoEntity();
-		entity.setId(vehiculo.getId());
 		entity.setTipo(vehiculo.getTipo());
 		entity.setPlaca(vehiculo.getPlaca());
 		entity.setCilindrada(vehiculo.getCilindrada());
@@ -18,7 +17,7 @@ public class VehiculoRepositorio {
 		Vehiculo vehiculo = null;
 		
 		if(entity != null) {
-			vehiculo = new Vehiculo(entity.getId(), entity.getTipo(), entity.getPlaca(), entity.getCilindrada()); 
+			vehiculo = new Vehiculo(entity.getTipo(), entity.getPlaca(), entity.getCilindrada()); 
 		}
 		
 		return vehiculo;

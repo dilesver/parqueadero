@@ -1,4 +1,4 @@
-package co.com.ceiba.parqueadero.entidad;
+package co.com.ceiba.parqueadero.persistencia.entidad;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
