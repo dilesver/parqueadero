@@ -1,8 +1,11 @@
 package co.com.ceiba.parqueadero.persistencia.repositorio;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import co.com.ceiba.parqueadero.dominio.Constantes;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
@@ -13,7 +16,9 @@ import co.com.ceiba.parqueadero.persistencia.builder.VehiculoBuilder;
 import co.com.ceiba.parqueadero.persistencia.dao.ParqueoDao;
 import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
 
+@Service
 public class RepositorioParqueoPersistencia implements RepositorioParqueo {
+	
 	@Autowired
 	private ParqueoDao dao;
 	
@@ -67,5 +72,18 @@ public class RepositorioParqueoPersistencia implements RepositorioParqueo {
 		
 		return (tipo.toUpperCase() == "CARRO" && count < Constantes.NUMERO_MAXIMO_CARROS) ||
 			   (tipo.toUpperCase() == "MOTO" && count < Constantes.NUMERO_MAXIMO_MOTOS);
+	}
+
+	@Override
+	public List<Parqueo> obtenerParqueos() {
+		List<Parqueo> parqueos = new ArrayList<>();
+		
+		Iterable<ParqueoEntity> listEntities = dao.findAll();
+		
+		for(ParqueoEntity parqueoEntity : listEntities) {
+			parqueos.add(ParqueoBuilder.convertirADominio(parqueoEntity));
+		}
+		
+		return parqueos;
 	}
 }

@@ -1,8 +1,8 @@
 package co.com.ceiba.parqueadero.controladores;
 
 import java.util.Date;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,54 +13,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.com.ceiba.parqueadero.dominio.Operario;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
+import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioParqueo;
+import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
 import co.com.ceiba.parqueadero.persistencia.builder.ParqueoBuilder;
 import co.com.ceiba.parqueadero.persistencia.builder.VehiculoBuilder;
-import co.com.ceiba.parqueadero.persistencia.dao.ParqueoDao;
-import co.com.ceiba.parqueadero.persistencia.dao.VehiculoDao;
 import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
 import co.com.ceiba.parqueadero.persistencia.entidad.VehiculoEntity;
+import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioParqueoPersistencia;
+import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioVehiculoPersistencia;
 
 @Controller
 @RequestMapping(path="/parqueadero")
 @ResponseBody
 public class ParqueaderoController {
-	@Autowired
-	private ParqueoDao parqueoDao;
+	private RepositorioVehiculo repositorioVehiculo;
+	private RepositorioParqueo repositorioParqueo;
+	private Operario operario;
 	
-	@Autowired
-	private VehiculoDao vehiculoDao;
+	public ParqueaderoController() {
+		this.repositorioVehiculo = new RepositorioVehiculoPersistencia();
+		this.repositorioParqueo = new RepositorioParqueoPersistencia();
+		this.operario = new Operario(repositorioVehiculo, repositorioParqueo);
+	}
 	
 	@PostMapping(path = "/entrada")
-	public ResponseEntity<Parqueo> entrada (@RequestBody Parqueo parqueo) {
-		
-		Vehiculo vehiculo = parqueo.getVehiculo();
+	public ResponseEntity<Boolean> entrada (@RequestBody Vehiculo vehiculo) {
 		
 		// Revisar que el vehiculo sea reportado con el número de placa
 		if (vehiculo.getPlaca() == null || vehiculo.getTipo() == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		}		
 		// Revisar si el vehiculo ya se encuentra en el parqueadero
-		else if (parqueoDao.findByVehiculoPlacaAndFechaSalidaIsNull(vehiculo.getPlaca()) != null) {
+		else if (operario.vehiculoEnParqueadero(vehiculo.getPlaca())) {
 			return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
 		}
 		
 		// Revisar si el vehiculo no está registrado, si no lo está es registrado
-		VehiculoEntity vehiculoEntity = vehiculoDao.findByPlaca(vehiculo.getPlaca());		
-		if(vehiculoEntity == null) {
-			vehiculoEntity = VehiculoBuilder.convertirAEntity(vehiculo);
-			vehiculoDao.save(vehiculoEntity);
+		if(!operario.vehiculoRegistrado(vehiculo)) {
+			operario.registrarVehiculo(vehiculo);
 		}
 		
 		// Se realiza el registro del parqueo
-		ParqueoEntity parqueoEntity = ParqueoBuilder.convertirAEntity(parqueo);
-		parqueoEntity.setVehiculo(vehiculoEntity);
-		parqueoDao.save(parqueoEntity);
+		Boolean parqueadeo = operario.entradaVehiculoParqueadero(vehiculo, new Date());
 		
-		return new ResponseEntity<>(ParqueoBuilder.convertirADominio(parqueoEntity), HttpStatus.OK);
+		return new ResponseEntity<>(parqueadeo, HttpStatus.OK);
 	}
 	
+	/*
 	@PostMapping(path = "/salida")
 	public ResponseEntity<ParqueoEntity> salida (@RequestBody Vehiculo vehiculo) {
 		
@@ -82,9 +84,9 @@ public class ParqueaderoController {
 		
 		int count = parqueoDao.countByVehiculoTipoAndFechaSalidaIsNull(tipo.toUpperCase());
 		
-		/*if ((tipo.toUpperCase() == "CARRO" && count >= 20) || (tipo.toUpperCase() == "MOTO" && count >= 10)) {
+		if ((tipo.toUpperCase() == "CARRO" && count >= 20) || (tipo.toUpperCase() == "MOTO" && count >= 10)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}*/
+		}
 		
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
@@ -99,10 +101,10 @@ public class ParqueaderoController {
 		}
 		
 		return new ResponseEntity<>(parqueo, HttpStatus.OK);
-	}
+	}*/
 	
-	@GetMapping(path = "/all") 
-	public Iterable<ParqueoEntity> getAllParqueos() {
-		return parqueoDao.findAll();
+	@GetMapping(path = "/all")
+	public ResponseEntity<List<Parqueo>> getAllParqueos() {
+		return new ResponseEntity<>(repositorioParqueo.obtenerParqueos(), HttpStatus.OK);
 	}
 }

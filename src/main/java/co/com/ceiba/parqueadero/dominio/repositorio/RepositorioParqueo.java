@@ -1,6 +1,7 @@
 package co.com.ceiba.parqueadero.dominio.repositorio;
 
 import java.util.Date;
+import java.util.List;
 
 import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
@@ -44,4 +45,10 @@ public interface RepositorioParqueo {
 	 * @return
 	 */
 	boolean diponibilidad(String tipo);
+	
+	/**
+	 * Obtener el listado completo de parqueos
+	 * @return
+	 */
+	List<Parqueo> obtenerParqueos();
 }

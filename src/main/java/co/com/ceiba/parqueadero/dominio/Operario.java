@@ -1,6 +1,7 @@
 package co.com.ceiba.parqueadero.dominio;
 
 import java.util.Date;
+import java.util.List;
 
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioParqueo;
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
@@ -36,5 +37,13 @@ public class Operario {
 	
 	public boolean registrarVehiculo(Vehiculo vehiculo) {
 		return repositorioVehiculo.agregar(vehiculo);
+	}
+	
+	public boolean vehiculoEnParqueadero(String placa) {
+		return repositorioParqueo.obtenerVehiculoParqueadoPorPlaca(placa) != null;
+	}
+	
+	public List<Parqueo> listadoParqueos(){
+		return repositorioParqueo.obtenerParqueos();
 	}
 }

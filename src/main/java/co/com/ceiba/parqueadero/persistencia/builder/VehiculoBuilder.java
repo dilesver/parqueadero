@@ -8,6 +8,7 @@ public class VehiculoBuilder {
 	
 	public static VehiculoEntity convertirAEntity(Vehiculo vehiculo) {
 		VehiculoEntity entity = new VehiculoEntity();
+		entity.setId(vehiculo.getId());
 		entity.setTipo(vehiculo.getTipo());
 		entity.setPlaca(vehiculo.getPlaca());
 		entity.setCilindrada(vehiculo.getCilindrada());
@@ -19,7 +20,7 @@ public class VehiculoBuilder {
 		Vehiculo vehiculo = null;
 		
 		if(entity != null) {
-			vehiculo = new Vehiculo(entity.getTipo(), entity.getPlaca(), entity.getCilindrada()); 
+			vehiculo = new Vehiculo(entity.getId(), entity.getTipo(), entity.getPlaca(), entity.getCilindrada()); 
 		}
 		
 		return vehiculo;

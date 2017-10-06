@@ -48,7 +48,8 @@ public class VehiculoControllerTest {
 	    		content(JsonHelper.toJson(vehiculo))).andExpect(status().isCreated());
 
 	    VehiculoEntity vehiculoCreado = dao.findByPlaca(vehiculo.getPlaca());
-	
+	    dao.delete(vehiculoCreado);
+	    
 	    // Assert
 	    Assert.assertNotNull(vehiculoCreado);
 	}
@@ -56,7 +57,7 @@ public class VehiculoControllerTest {
 	@Test
 	public void recuperarVehiculo() throws IOException, Exception {
 	    // Arrange
-	    Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("dzl121").build();
+	    Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("jkm547").build();
 	    VehiculoEntity vehiculoCreado = dao.save(VehiculoBuilder.convertirAEntity(vehiculo));
 	
 	    // Act
@@ -79,7 +80,7 @@ public class VehiculoControllerTest {
 	@Test
 	public void eliminarVehiculo() throws IOException, Exception {
 	    // Arrange
-	    Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("dzl121").build();
+	    Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("dzl122").build();
 	    VehiculoEntity vehiculoCreado = dao.save(VehiculoBuilder.convertirAEntity(vehiculo));
 	
 	    // Act

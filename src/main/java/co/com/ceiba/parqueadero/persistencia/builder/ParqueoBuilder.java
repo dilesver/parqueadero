@@ -8,6 +8,7 @@ public class ParqueoBuilder {
 	
 	public static ParqueoEntity convertirAEntity(Parqueo parqueo) {
 		ParqueoEntity entity = new ParqueoEntity();
+		entity.setId(parqueo.getId());
 		entity.setVehiculo(VehiculoBuilder.convertirAEntity(parqueo.getVehiculo()));
 		entity.setFechaEntrada(parqueo.getFechaEntrada());
 		entity.setFechaSalida(parqueo.getFechaSalida());
@@ -21,7 +22,7 @@ public class ParqueoBuilder {
 		Parqueo parqueo = null;
 		
 		if(entity != null) {
-			parqueo = new Parqueo(VehiculoBuilder.convertirADominio(entity.getVehiculo()), entity.getFechaEntrada(), entity.getFechaSalida(), entity.getDuracion(), entity.getValor()); 
+			parqueo = new Parqueo(entity.getId(), VehiculoBuilder.convertirADominio(entity.getVehiculo()), entity.getFechaEntrada(), entity.getFechaSalida(), entity.getDuracion(), entity.getValor()); 
 		}
 		
 		return parqueo;
