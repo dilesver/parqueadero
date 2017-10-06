@@ -31,6 +31,13 @@ public class Operario {
 		}		
 	}
 	
+	public Parqueo salidaVehiculoParqueadero(Vehiculo vehiculo, Date fechaSalida) {
+		String duracion = "0m";
+		Integer valor = 0;
+		
+		return repositorioParqueo.salida(vehiculo.getPlaca(), fechaSalida, duracion, valor);
+	}
+	
 	public boolean vehiculoRegistrado(Vehiculo vehiculo) {
 		return repositorioVehiculo.obtenerPorPlaca(vehiculo.getPlaca()) != null;
 	}

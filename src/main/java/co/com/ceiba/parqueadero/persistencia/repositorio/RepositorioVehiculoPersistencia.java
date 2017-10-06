@@ -21,7 +21,7 @@ public class RepositorioVehiculoPersistencia implements RepositorioVehiculo {
 	
 	@Override
 	public Vehiculo obtenerPorPlaca(String placa) {
-		entity = dao.findOne((long)1); //dao.findByPlaca(placa.toUpperCase());
+		entity = dao.findByPlaca(placa.toUpperCase());
 		
 		return VehiculoBuilder.convertirADominio(entity);
 	}

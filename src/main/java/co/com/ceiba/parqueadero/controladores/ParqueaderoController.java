@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.com.ceiba.parqueadero.dominio.Operario;
@@ -57,46 +58,19 @@ public class ParqueaderoController {
 		return new ResponseEntity<>(parqueadeo, HttpStatus.OK);
 	}
 	
-	/*
 	@PostMapping(path = "/salida")
-	public ResponseEntity<ParqueoEntity> salida (@RequestBody Vehiculo vehiculo) {
-		
-		ParqueoEntity parqueo = parqueoDao.findByVehiculoPlacaAndFechaSalidaIsNull(vehiculo.getPlaca());
-		
-		if (parqueo == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		else {
-			 parqueo.setFechaSalida(new Date());
-			 parqueoDao.save(parqueo);
-		}
-		
+	public ResponseEntity<Parqueo> salida (@RequestBody Vehiculo vehiculo) {
+		Date fechaSalida = new Date();
+		Parqueo parqueo = operario.salidaVehiculoParqueadero(vehiculo, fechaSalida);
+
 		return new ResponseEntity<>(parqueo, HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/dipsonibilidad", params = {"tipo"})
-	public ResponseEntity<Integer> disponibilidad (@RequestParam String tipo) {
+	public ResponseEntity<Boolean> disponibilidad (@RequestParam String tipo) {
 		
-		int count = parqueoDao.countByVehiculoTipoAndFechaSalidaIsNull(tipo.toUpperCase());
-		
-		if ((tipo.toUpperCase() == "CARRO" && count >= 20) || (tipo.toUpperCase() == "MOTO" && count >= 10)) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		
-		return new ResponseEntity<>(count, HttpStatus.OK);
+		return new ResponseEntity<>(repositorioParqueo.diponibilidad(tipo), HttpStatus.OK);
 	}
-	
-	@GetMapping(params = {"placa"})
-	public ResponseEntity<ParqueoEntity> getByPlaca (@RequestParam String placa) {
-		
-		ParqueoEntity parqueo = parqueoDao.findByVehiculoPlacaAndFechaSalidaIsNull(placa.toUpperCase());
-		
-		if (parqueo == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		
-		return new ResponseEntity<>(parqueo, HttpStatus.OK);
-	}*/
 	
 	@GetMapping(path = "/all")
 	public ResponseEntity<List<Parqueo>> getAllParqueos() {
