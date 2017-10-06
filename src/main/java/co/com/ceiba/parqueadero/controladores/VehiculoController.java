@@ -35,8 +35,8 @@ public class VehiculoController {
 		return new ResponseEntity<>(VehiculoBuilder.convertirADominio(entity), HttpStatus.CREATED);
 	}
 	
-	@GetMapping(params= {"id"})
-	public ResponseEntity<Vehiculo> recovery (@RequestParam Long id) {
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<Vehiculo> recovery (@PathVariable Long id) {
 		
 		Vehiculo vehiculo = VehiculoBuilder.convertirADominio(vehiculoDao.findOne(id));
 		
@@ -47,7 +47,7 @@ public class VehiculoController {
 		return new ResponseEntity<>(vehiculo, HttpStatus.OK);
 	}
 	
-	@PutMapping(path="/{id}")
+	@PutMapping(path = "/{id}")
 	public ResponseEntity<Vehiculo> update (@PathVariable Long id, @RequestBody Vehiculo vehiculo) {	
 		
 		VehiculoEntity entity = vehiculoDao.findOne(id);
@@ -64,7 +64,7 @@ public class VehiculoController {
 		return new ResponseEntity<>(VehiculoBuilder.convertirADominio(entity), HttpStatus.OK);
 	}
 	
-	@DeleteMapping(path="/{id}")
+	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Vehiculo> delete (@PathVariable Long id) {	
 		
 		VehiculoEntity entity = vehiculoDao.findOne(id);
@@ -78,7 +78,7 @@ public class VehiculoController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	@GetMapping(params= {"placa"})
+	@GetMapping(params = {"placa"})
 	public ResponseEntity<Vehiculo> getByPlaca (@RequestParam String placa) {
 		
 		Vehiculo vehiculo = VehiculoBuilder.convertirADominio(vehiculoDao.findByPlaca(placa.toUpperCase()));
@@ -90,7 +90,7 @@ public class VehiculoController {
 		return new ResponseEntity<>(vehiculo, HttpStatus.OK);
 	}
 	
-	@GetMapping(path="/all") 
+	@GetMapping(path = "/all") 
 	public Iterable<VehiculoEntity> getAllVehiculos() {
 		return vehiculoDao.findAll();
 	}

@@ -1,5 +1,7 @@
 package co.com.ceiba.parqueadero.dominio.repositorio;
 
+import java.util.Date;
+
 import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 
@@ -20,11 +22,14 @@ public interface RepositorioParqueo {
 	boolean entrada(Parqueo parqueo);
 	
 	/**
-	 * Permite la salida de un parqueo en el repositorio
-	 * @param parqueo
+	 * Permite la salida de un vehiculo del repositorio
+	 * @param placa
+	 * @param fechaSalida
+	 * @param duracion
+	 * @param valor
 	 * @return
 	 */
-	boolean salida(Parqueo parqueo);
+	Parqueo salida(String placa, Date fechaSalida, String duracion, Integer valor);
 	
 	/**
 	 * Permite obtener los datos del parqueo por medio de la placa 
@@ -32,4 +37,11 @@ public interface RepositorioParqueo {
 	 * @return
 	 */
 	Parqueo obtener(String placa);
+	
+	/**
+	 * Permite consultar por tipo de vehiculo, si hay disponibilidad para estacionar
+	 * @param tipo
+	 * @return
+	 */
+	boolean diponibilidad(String tipo);
 }

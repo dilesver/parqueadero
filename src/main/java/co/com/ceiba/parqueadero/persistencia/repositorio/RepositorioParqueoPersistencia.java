@@ -1,7 +1,10 @@
 package co.com.ceiba.parqueadero.persistencia.repositorio;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
+import co.com.ceiba.parqueadero.dominio.Constantes;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioParqueo;
@@ -32,11 +35,22 @@ public class RepositorioParqueoPersistencia implements RepositorioParqueo {
 	}
 
 	@Override
-	public boolean salida(Parqueo parqueo) {
+	public Parqueo salida(String placa, Date fechaSalida, String duracion, Integer valor) {
+		Parqueo parqueo = obtener(placa);
 		
-		entity = dao.save(ParqueoBuilder.convertirAEntity(parqueo));
-		
-		return entity.getValor() != null;
+		if (parqueo.getVehiculo() != null) {
+			
+			parqueo.setFechaSalida(fechaSalida);
+			parqueo.setDuracion(duracion);
+			parqueo.setValor(valor);
+			
+			entity = dao.save(ParqueoBuilder.convertirAEntity(parqueo));
+			
+			return ParqueoBuilder.convertirADominio(entity);
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -47,4 +61,11 @@ public class RepositorioParqueoPersistencia implements RepositorioParqueo {
 		return ParqueoBuilder.convertirADominio(entity);
 	}
 
+	@Override
+	public boolean diponibilidad(String tipo) {
+		int count = dao.countByVehiculoTipoAndFechaSalidaIsNull(tipo.toUpperCase());
+		
+		return (tipo.toUpperCase() == "CARRO" && count < Constantes.NUMERO_MAXIMO_CARROS) ||
+			   (tipo.toUpperCase() == "MOTO" && count < Constantes.NUMERO_MAXIMO_MOTOS);
+	}
 }

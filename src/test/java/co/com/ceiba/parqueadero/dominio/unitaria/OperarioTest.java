@@ -27,8 +27,6 @@ public class OperarioTest {
 		RepositorioVehiculo respositorioVehiculo = mock(RepositorioVehiculo.class);
 		when(respositorioVehiculo.obtenerPorPlaca(vehiculo.getPlaca())).thenReturn(vehiculo);
 		
-		ParqueoTestDataBuilder parqueoTestDataBuilder = new ParqueoTestDataBuilder().conVehiculo(vehiculo);
-		Parqueo parqueo = parqueoTestDataBuilder.build();
 		RepositorioParqueo respositorioParqueo = mock(RepositorioParqueo.class);
 		when(respositorioParqueo.obtenerVehiculoParqueadoPorPlaca(vehiculo.getPlaca())).thenReturn(vehiculo);
 		when(respositorioParqueo.entrada(any(Parqueo.class))).thenReturn(true);

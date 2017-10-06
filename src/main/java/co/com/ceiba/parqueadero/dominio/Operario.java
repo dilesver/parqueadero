@@ -16,16 +16,25 @@ public class Operario {
 	
 	public boolean entradaVehiculoParqueadero(Vehiculo vehiculo, Date fechaEntrada) {
 		
-		if (vehiculoRegistrado(vehiculo) && repositorioParqueo.obtenerVehiculoParqueadoPorPlaca(vehiculo.getPlaca()) != null) {
+		if(!vehiculoRegistrado(vehiculo) && !registrarVehiculo(vehiculo)) {
+			return false;
+		}
+		
+		if (repositorioParqueo.obtenerVehiculoParqueadoPorPlaca(vehiculo.getPlaca()) != null) {
 			Parqueo parqueo = new Parqueo(vehiculo, fechaEntrada);
 			
 			return repositorioParqueo.entrada(parqueo);
 		}
-		
-		return false;
+		else {
+			return false;
+		}		
 	}
 	
 	public boolean vehiculoRegistrado(Vehiculo vehiculo) {
-		return (repositorioVehiculo.obtenerPorPlaca(vehiculo.getPlaca()) != null);
+		return repositorioVehiculo.obtenerPorPlaca(vehiculo.getPlaca()) != null;
+	}
+	
+	public boolean registrarVehiculo(Vehiculo vehiculo) {
+		return repositorioVehiculo.agregar(vehiculo);
 	}
 }

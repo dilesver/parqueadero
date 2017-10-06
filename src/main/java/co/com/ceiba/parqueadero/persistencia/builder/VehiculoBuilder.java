@@ -4,6 +4,8 @@ import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.persistencia.entidad.VehiculoEntity;
 
 public class VehiculoBuilder {
+	private VehiculoBuilder() {}
+	
 	public static VehiculoEntity convertirAEntity(Vehiculo vehiculo) {
 		VehiculoEntity entity = new VehiculoEntity();
 		entity.setTipo(vehiculo.getTipo());
