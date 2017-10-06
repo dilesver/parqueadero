@@ -6,13 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
-import co.com.ceiba.parqueadero.persistencia.builder.ParqueoBuilder;
 import co.com.ceiba.parqueadero.persistencia.builder.VehiculoBuilder;
 import co.com.ceiba.parqueadero.persistencia.dao.VehiculoDao;
-import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
 import co.com.ceiba.parqueadero.persistencia.entidad.VehiculoEntity;
 
 @Service

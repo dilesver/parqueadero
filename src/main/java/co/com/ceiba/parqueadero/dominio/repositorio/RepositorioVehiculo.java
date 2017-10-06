@@ -2,7 +2,6 @@ package co.com.ceiba.parqueadero.dominio.repositorio;
 
 import java.util.List;
 
-import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 
 public interface RepositorioVehiculo {

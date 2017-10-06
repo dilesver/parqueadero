@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.com.ceiba.parqueadero.dominio.Operario;
@@ -18,10 +17,6 @@ import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioParqueo;
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
-import co.com.ceiba.parqueadero.persistencia.builder.ParqueoBuilder;
-import co.com.ceiba.parqueadero.persistencia.builder.VehiculoBuilder;
-import co.com.ceiba.parqueadero.persistencia.entidad.ParqueoEntity;
-import co.com.ceiba.parqueadero.persistencia.entidad.VehiculoEntity;
 import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioParqueoPersistencia;
 import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioVehiculoPersistencia;
 
