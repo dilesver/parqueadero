@@ -89,4 +89,14 @@ public class VehiculoControllerTest {
 	    
 	    // Assert
 	}
+	
+	@Test
+	public void listadoVehiculos() throws IOException, Exception {
+	    // Arrange
+	    
+	    // Act
+	    mvc.perform(get("/vehiculos/all")).andExpect(status().isOk());
+	    
+	    // Assert
+	}
 }
