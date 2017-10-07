@@ -25,7 +25,7 @@ public class VehiculoTest {
 		// Assert
 		assertEquals(TIPO.toUpperCase(), vehiculo.getTipo());
 		assertEquals(PLACA.toUpperCase(), vehiculo.getPlaca());
-		assertEquals(CILINDRADA, vehiculo.getCilindrada());
+		assertEquals(CILINDRADA, vehiculo.getCilindraje());
 	}
 	
 	@Test
@@ -41,11 +41,11 @@ public class VehiculoTest {
 		Vehiculo vehiculo2 = new Vehiculo();
 		vehiculo2.setTipo(vehiculo1.getTipo());
 		vehiculo2.setPlaca(vehiculo1.getPlaca());
-		vehiculo2.setCilindrada(vehiculo1.getCilindrada());
+		vehiculo2.setCilindraje(vehiculo1.getCilindraje());
 		
 		// Assert
 		assertEquals(vehiculo1.getTipo(), vehiculo2.getTipo());
 		assertEquals(vehiculo1.getPlaca(), vehiculo2.getPlaca());
-		assertEquals(vehiculo1.getCilindrada(), vehiculo2.getCilindrada());
+		assertEquals(vehiculo1.getCilindraje(), vehiculo2.getCilindraje());
 	}
 }

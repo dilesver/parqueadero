@@ -11,7 +11,7 @@ public class VehiculoBuilder {
 		entity.setId(vehiculo.getId());
 		entity.setTipo(vehiculo.getTipo());
 		entity.setPlaca(vehiculo.getPlaca());
-		entity.setCilindrada(vehiculo.getCilindrada());
+		entity.setCilindrada(vehiculo.getCilindraje());
 		
 		return entity;
 	}
