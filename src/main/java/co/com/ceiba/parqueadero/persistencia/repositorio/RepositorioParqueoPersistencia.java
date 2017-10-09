@@ -28,7 +28,7 @@ public class RepositorioParqueoPersistencia implements RepositorioParqueo {
 	public Vehiculo obtenerVehiculoParqueadoPorPlaca(String placa) {
 		entity = dao.findByVehiculoPlacaAndFechaSalidaIsNull(placa);
 		
-		return VehiculoBuilder.convertirADominio(entity.getVehiculo());
+		return (entity != null) ? VehiculoBuilder.convertirADominio(entity.getVehiculo()) : null;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class RepositorioParqueoPersistencia implements RepositorioParqueo {
 		
 		entity = dao.save(ParqueoBuilder.convertirAEntity(parqueo)); 
 		
-		return entity.getId() != null;
+		return entity != null;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class RepositorioParqueoPersistencia implements RepositorioParqueo {
 			
 			entity = dao.save(ParqueoBuilder.convertirAEntity(parqueo));
 			
-			return ParqueoBuilder.convertirADominio(entity);
+			return (entity != null) ? ParqueoBuilder.convertirADominio(entity) : null;
 		}
 		else {
 			return null;
@@ -63,15 +63,21 @@ public class RepositorioParqueoPersistencia implements RepositorioParqueo {
 		
 		entity = dao.findByVehiculoPlacaAndFechaSalidaIsNull(placa);
 		
-		return ParqueoBuilder.convertirADominio(entity);
+		return (entity != null) ? ParqueoBuilder.convertirADominio(entity) : null;
 	}
 
 	@Override
 	public boolean diponibilidad(String tipo) {
 		int count = dao.countByVehiculoTipoAndFechaSalidaIsNull(tipo.toUpperCase());
 		
-		return (tipo.toUpperCase() == "CARRO" && count < Constantes.NUMERO_MAXIMO_CARROS) ||
-			   (tipo.toUpperCase() == "MOTO" && count < Constantes.NUMERO_MAXIMO_MOTOS);
+		switch (tipo.toUpperCase()) {
+			case "CARRO":
+				return count < Constantes.NUMERO_MAXIMO_CARROS;
+			case "MOTO":
+				return count < Constantes.NUMERO_MAXIMO_MOTOS;
+			default:
+				return false;
+		}
 	}
 
 	@Override

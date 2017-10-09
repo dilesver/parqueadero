@@ -7,8 +7,13 @@ import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioParqueo;
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
 
 public class Operario {
-	private RepositorioVehiculo repositorioVehiculo;
-	private RepositorioParqueo repositorioParqueo;
+	
+	public RepositorioVehiculo repositorioVehiculo;
+	public RepositorioParqueo repositorioParqueo;
+	
+	public Operario() {
+		
+	}
 	
 	public Operario(RepositorioVehiculo repositorioVehiculo, RepositorioParqueo repositorioParqueo) {
 		this.repositorioVehiculo = repositorioVehiculo;
@@ -16,13 +21,14 @@ public class Operario {
 	}
 	
 	public boolean entradaVehiculoParqueadero(Vehiculo vehiculo, Date fechaEntrada) {
+		Vehiculo vehiculo_a_estacionar = null;
 		
-		if(!vehiculoRegistrado(vehiculo) && !registrarVehiculo(vehiculo)) {
-			return false;
+		if(!vehiculoRegistrado(vehiculo)) {
+			vehiculo_a_estacionar = registrarVehiculo(vehiculo);
 		}
 		
-		if (repositorioParqueo.obtenerVehiculoParqueadoPorPlaca(vehiculo.getPlaca()) != null) {
-			Parqueo parqueo = new Parqueo(vehiculo, fechaEntrada);
+		if (vehiculo_a_estacionar != null && repositorioParqueo.obtenerVehiculoParqueadoPorPlaca(vehiculo_a_estacionar.getPlaca()) == null) {
+			Parqueo parqueo = new Parqueo(vehiculo_a_estacionar, fechaEntrada);
 			
 			return repositorioParqueo.entrada(parqueo);
 		}
@@ -42,7 +48,7 @@ public class Operario {
 		return repositorioVehiculo.obtenerPorPlaca(vehiculo.getPlaca()) != null;
 	}
 	
-	public boolean registrarVehiculo(Vehiculo vehiculo) {
+	public Vehiculo registrarVehiculo(Vehiculo vehiculo) {
 		return repositorioVehiculo.agregar(vehiculo);
 	}
 	

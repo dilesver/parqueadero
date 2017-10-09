@@ -25,7 +25,7 @@ public interface RepositorioVehiculo {
 	 * @param vehiculo
 	 * @return
 	 */
-	boolean agregar(Vehiculo vehiculo);
+	Vehiculo agregar(Vehiculo vehiculo);
 	
 	/**
 	 * Permite eliminar vehiculo por id

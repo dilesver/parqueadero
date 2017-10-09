@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
@@ -14,6 +15,7 @@ import co.com.ceiba.parqueadero.persistencia.entidad.VehiculoEntity;
 
 @Service
 public class RepositorioVehiculoPersistencia implements RepositorioVehiculo {
+	
 	@Autowired
 	private VehiculoDao dao;
 	
@@ -23,14 +25,14 @@ public class RepositorioVehiculoPersistencia implements RepositorioVehiculo {
 	public Vehiculo obtenerPorPlaca(String placa) {
 		entity = dao.findByPlaca(placa.toUpperCase());
 		
-		return VehiculoBuilder.convertirADominio(entity);
+		return (entity != null) ? VehiculoBuilder.convertirADominio(entity) : null;
 	}
 
 	@Override
-	public boolean agregar(Vehiculo vehiculo) {
+	public Vehiculo agregar(Vehiculo vehiculo) {
 		entity = dao.save(VehiculoBuilder.convertirAEntity(vehiculo));
 		
-		return entity.getId() != null;
+		return (entity != null) ? VehiculoBuilder.convertirADominio(entity) : null;
 	}
 
 	@Override
