@@ -8,8 +8,8 @@ import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
 
 public class Operario {
 	
-	public RepositorioVehiculo repositorioVehiculo;
-	public RepositorioParqueo repositorioParqueo;
+	private RepositorioVehiculo repositorioVehiculo;
+	private RepositorioParqueo repositorioParqueo;
 	
 	public Operario() {
 		
