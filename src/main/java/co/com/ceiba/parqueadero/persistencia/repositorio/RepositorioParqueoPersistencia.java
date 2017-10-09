@@ -79,6 +79,20 @@ public class RepositorioParqueoPersistencia implements RepositorioParqueo {
 				return false;
 		}
 	}
+	
+	@Override
+	public String cuposDiponibles(String tipo) {
+		int count = dao.countByVehiculoTipoAndFechaSalidaIsNull(tipo.toUpperCase());
+		
+		switch (tipo.toUpperCase()) {
+			case "CARRO":
+				return String.valueOf((Constantes.NUMERO_MAXIMO_CARROS - count) + " / " + Constantes.NUMERO_MAXIMO_CARROS);
+			case "MOTO":
+				return String.valueOf((Constantes.NUMERO_MAXIMO_MOTOS - count) + " / " + Constantes.NUMERO_MAXIMO_MOTOS);
+			default:
+				return "";
+		}
+	}
 
 	@Override
 	public List<Parqueo> obtenerParqueos() {

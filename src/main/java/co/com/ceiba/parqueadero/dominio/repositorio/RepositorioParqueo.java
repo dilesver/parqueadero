@@ -47,6 +47,13 @@ public interface RepositorioParqueo {
 	boolean diponibilidad(String tipo);
 	
 	/**
+	 * Permite consultar el número de cupos disponibles por tipo de vehiculo
+	 * @param tipo
+	 * @return
+	 */
+	String cuposDiponibles(String tipo);
+	
+	/**
 	 * Obtener el listado completo de parqueos
 	 * @return
 	 */

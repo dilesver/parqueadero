@@ -87,6 +87,15 @@ public class ParqueaderoController {
 			new ResponseEntity<>(disponible, HttpStatus.NOT_FOUND);
 	}
 	
+	@GetMapping(path = "/cupos_disponibles", params = {"tipo"})
+	public ResponseEntity<String> cuposDisponibles (@RequestParam String tipo) {
+		
+		String cupos_disponibles = repositorioParqueo.cuposDiponibles(tipo);
+		
+		return (cupos_disponibles != null) ? new ResponseEntity<>(cupos_disponibles, HttpStatus.OK) :
+			new ResponseEntity<>(cupos_disponibles, HttpStatus.NOT_FOUND);
+	}
+	
 	@GetMapping(path = "/all")
 	public ResponseEntity<List<Parqueo>> getAllParqueos() {
 		return new ResponseEntity<>(repositorioParqueo.obtenerParqueos(), HttpStatus.OK);
