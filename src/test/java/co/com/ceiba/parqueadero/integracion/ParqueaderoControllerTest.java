@@ -53,9 +53,12 @@ public class ParqueaderoControllerTest {
 	    // Act
 	    mvc.perform(post("/parqueadero/entrada").contentType(MediaType.APPLICATION_JSON).
 	    		content(JsonHelper.toJson(vehiculo))).andExpect(status().isCreated());
-
+	    
 	    ParqueoEntity parqueoCreado = parqueoDao.findByVehiculoPlacaAndFechaSalidaIsNull(vehiculo.getPlaca());
 	    parqueoDao.delete(parqueoCreado);
+	    
+	    VehiculoEntity vehicuoCreado = vehiculoDao.findByPlaca(vehiculo.getPlaca());
+	    vehiculoDao.delete(vehicuoCreado);
 	    
 	    // Assert
 	    Assert.assertNotNull(parqueoCreado);
