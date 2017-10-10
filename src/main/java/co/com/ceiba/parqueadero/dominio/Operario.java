@@ -3,17 +3,16 @@ package co.com.ceiba.parqueadero.dominio;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioParqueo;
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
 
+@Component
 public class Operario {
 	
 	private RepositorioVehiculo repositorioVehiculo;
 	private RepositorioParqueo repositorioParqueo;
-	
-	public Operario() {
-		
-	}
 	
 	public Operario(RepositorioVehiculo repositorioVehiculo, RepositorioParqueo repositorioParqueo) {
 		this.repositorioVehiculo = repositorioVehiculo;

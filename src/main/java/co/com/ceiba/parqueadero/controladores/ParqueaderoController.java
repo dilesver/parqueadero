@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.com.ceiba.parqueadero.dominio.Operario;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
-import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioParqueo;
-import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
 import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioParqueoPersistencia;
 import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioVehiculoPersistencia;
 
@@ -27,15 +27,13 @@ import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioVehiculoPers
 public class ParqueaderoController {
 	
 	@Autowired
-	private RepositorioVehiculo repositorioVehiculo;
+	private RepositorioVehiculoPersistencia repositorioVehiculo;
 	
 	@Autowired
-	private RepositorioParqueo repositorioParqueo;
+	private RepositorioParqueoPersistencia repositorioParqueo;
 	
-	public ParqueaderoController() {
-		this.repositorioVehiculo = new RepositorioVehiculoPersistencia();
-		this.repositorioParqueo = new RepositorioParqueoPersistencia();
-	}
+	@Autowired
+	private Operario operario;
 	
 	@PostMapping(path = "/entrada")
 	public ResponseEntity<Boolean> entrada (@RequestBody Vehiculo vehiculo) {
@@ -46,6 +44,7 @@ public class ParqueaderoController {
 		}		
 		// Revisar si el vehiculo ya se encuentra en el parqueadero
 		else if (repositorioParqueo.obtenerVehiculoParqueadoPorPlaca(vehiculo.getPlaca()) != null) {
+		//else if (operario.vehiculoEnParqueadero(vehiculo.getPlaca())) {
 			return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
 		}
 		
@@ -54,11 +53,13 @@ public class ParqueaderoController {
 		// Revisar si el vehiculo no está registrado, si no lo está es registrado
 		if(vehiculo_a_estacionar == null) {
 			vehiculo_a_estacionar = repositorioVehiculo.agregar(vehiculo);
+			//vehiculo_a_estacionar = operario.registrarVehiculo(vehiculo);
 		}
 		
 		// Se realiza el registro del parqueo
 		Parqueo parqueo = new Parqueo(vehiculo_a_estacionar, new Date());
 		Boolean parqueado = repositorioParqueo.entrada(parqueo);
+		//Boolean parqueado = operario.entradaVehiculoParqueadero(vehiculo_a_estacionar, new Date());
 		
 		return new ResponseEntity<>(parqueado, HttpStatus.CREATED);
 	}
@@ -98,6 +99,7 @@ public class ParqueaderoController {
 	
 	@GetMapping(path = "/all")
 	public ResponseEntity<List<Parqueo>> getAllParqueos() {
-		return new ResponseEntity<>(repositorioParqueo.obtenerParqueos(), HttpStatus.OK);
+		return new ResponseEntity<>(operario.listadoParqueos(), HttpStatus.OK);
+		//return new ResponseEntity<>(repositorioParqueo.obtenerParqueos(), HttpStatus.OK);
 	}
 }

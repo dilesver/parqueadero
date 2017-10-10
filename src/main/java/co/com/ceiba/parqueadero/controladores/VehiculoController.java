@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.com.ceiba.parqueadero.dominio.Operario;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
-import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
+import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioParqueoPersistencia;
 import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioVehiculoPersistencia;
 
 @Controller
@@ -24,16 +25,23 @@ import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioVehiculoPers
 public class VehiculoController {
 	
 	@Autowired
-	private RepositorioVehiculo repositorioVehiculo;
+	private RepositorioVehiculoPersistencia repositorioVehiculo;
 	
-	public VehiculoController() {
+	@Autowired
+	private RepositorioParqueoPersistencia repositorioParqueo;
+	
+	@Autowired
+	private Operario operario;
+	
+	/*public VehiculoController() {
 		this.repositorioVehiculo = new RepositorioVehiculoPersistencia();
-	}
+	}*/
 	
 	@PostMapping
 	public ResponseEntity<Vehiculo> create (@RequestBody Vehiculo vehiculo) {
 		
-		repositorioVehiculo.agregar(vehiculo);
+		//repositorioVehiculo.agregar(vehiculo);
+		operario.registrarVehiculo(vehiculo);
 		
 		return new ResponseEntity<>(vehiculo, HttpStatus.CREATED);
 	}
