@@ -1,6 +1,7 @@
 package co.com.ceiba.parqueadero.dominio.unitaria;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import co.com.ceiba.parqueadero.ParqueaderoBackendApplication;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
+import co.com.ceiba.parqueadero.persistencia.dao.ParqueoDao;
+import co.com.ceiba.parqueadero.persistencia.dao.VehiculoDao;
 import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioVehiculoPersistencia;
 import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
@@ -20,6 +23,18 @@ import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 public class RepositorioVehiculoTest {
 	@Autowired
 	RepositorioVehiculoPersistencia repositorio;
+	
+	@Autowired
+	VehiculoDao vehiculoDao;
+	
+	@Autowired
+	ParqueoDao parqueoDao;
+	
+	@Before
+	public void before() {
+		parqueoDao.deleteAll();
+		vehiculoDao.deleteAll();
+	}
 	
 	@Test
 	public void guardarVehiculo() {
