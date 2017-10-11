@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import co.com.ceiba.parqueadero.ParqueaderoBackendApplication;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
@@ -61,10 +62,12 @@ public class VehiculoControllerTest {
 	    VehiculoEntity vehiculoCreado = dao.save(VehiculoBuilder.convertirAEntity(vehiculo));
 	
 	    // Act
-	    mvc.perform(get("/vehiculos/" + vehiculoCreado.getId())).andExpect(status().isOk());
+	    ResultActions result = mvc.perform(get("/vehiculos/" + vehiculoCreado.getId()));
+	    //.andExpect(status().isOk());
 	    dao.delete(vehiculoCreado);
 	
 	    // Assert
+	    result.andExpect(status().isOk());
 	}
 	
 	@Test

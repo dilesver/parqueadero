@@ -58,9 +58,13 @@ public class OperarioTest {
 	@Test
 	public void registrarVehiculo() {
 		// Arrange
-		Vehiculo vehiculoBuscado = repositorioVehiculo.obtenerPorPlaca(vehiculo.getPlaca());
-		if (vehiculoBuscado != null) {			
+		/*Vehiculo vehiculoBuscado = repositorioVehiculo.obtenerPorPlaca(vehiculo.getPlaca());
+		if (vehiculoBuscado != null) {
 			repositorioVehiculo.eliminar(vehiculoBuscado.getId());
+		}*/
+		
+		if (operario.vehiculoRegistrado(vehiculo)) {
+			repositorioVehiculo.eliminar(repositorioVehiculo.obtenerPorPlaca(vehiculo.getPlaca()).getId());
 		}
 		
 		// Act
@@ -92,10 +96,9 @@ public class OperarioTest {
 		// Arrange
 		Date fechaSalida = new Date();
 		Vehiculo vehiculo_a_estacionar = operario.registrarVehiculo(vehiculo);
-		operario.entradaVehiculoParqueadero(vehiculo, fechaSalida);
-		
-		// Act	
 		operario.entradaVehiculoParqueadero(vehiculo_a_estacionar, fechaSalida);
+		
+		// Act
 		Parqueo parqueado = operario.salidaVehiculoParqueadero(vehiculo_a_estacionar, fechaSalida);
 				
 		// Assert

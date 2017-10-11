@@ -43,7 +43,7 @@ public class RepositorioParqueoPersistencia implements RepositorioParqueo {
 	public Parqueo salida(String placa, Date fechaSalida, String duracion, Integer valor) {
 		Parqueo parqueo = obtener(placa);
 		
-		if (parqueo.getVehiculo() != null) {
+		if (parqueo != null) {
 			
 			parqueo.setFechaSalida(fechaSalida);
 			parqueo.setDuracion(duracion);

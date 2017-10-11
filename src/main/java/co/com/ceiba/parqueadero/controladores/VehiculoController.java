@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.com.ceiba.parqueadero.dominio.Operario;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
-import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioParqueoPersistencia;
 import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioVehiculoPersistencia;
 
 @Controller
@@ -28,22 +27,14 @@ public class VehiculoController {
 	private RepositorioVehiculoPersistencia repositorioVehiculo;
 	
 	@Autowired
-	private RepositorioParqueoPersistencia repositorioParqueo;
-	
-	@Autowired
 	private Operario operario;
-	
-	/*public VehiculoController() {
-		this.repositorioVehiculo = new RepositorioVehiculoPersistencia();
-	}*/
 	
 	@PostMapping
 	public ResponseEntity<Vehiculo> create (@RequestBody Vehiculo vehiculo) {
 		
-		//repositorioVehiculo.agregar(vehiculo);
-		operario.registrarVehiculo(vehiculo);
+		Vehiculo vehiculoCreado = operario.registrarVehiculo(vehiculo);
 		
-		return new ResponseEntity<>(vehiculo, HttpStatus.CREATED);
+		return (vehiculoCreado != null) ? new ResponseEntity<>(vehiculo, HttpStatus.CREATED) : new ResponseEntity<>(vehiculo, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@GetMapping(path = "/{id}")

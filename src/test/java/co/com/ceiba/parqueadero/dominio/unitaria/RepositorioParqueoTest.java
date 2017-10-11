@@ -1,6 +1,9 @@
 package co.com.ceiba.parqueadero.dominio.unitaria;
 
+import java.util.Date;
+
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import co.com.ceiba.parqueadero.ParqueaderoBackendApplication;
 import co.com.ceiba.parqueadero.dominio.Parqueo;
 import co.com.ceiba.parqueadero.dominio.Vehiculo;
 import co.com.ceiba.parqueadero.persistencia.dao.ParqueoDao;
+import co.com.ceiba.parqueadero.persistencia.dao.VehiculoDao;
 import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioParqueoPersistencia;
 import co.com.ceiba.parqueadero.persistencia.repositorio.RepositorioVehiculoPersistencia;
 import co.com.ceiba.parqueadero.testdatabuilder.ParqueoTestDataBuilder;
@@ -26,10 +30,19 @@ public class RepositorioParqueoTest {
 	RepositorioVehiculoPersistencia repositorioVehiculos;
 	
 	@Autowired
-	RepositorioParqueoPersistencia repositorio;
+	RepositorioParqueoPersistencia repositorioParqueo;
 	
 	@Autowired
-	ParqueoDao dao;
+	VehiculoDao vehiculoDao;
+	
+	@Autowired
+	ParqueoDao parqueoDao;
+	
+	@Before
+	public void before() {
+		//parqueoDao.deleteAll();
+		//vehiculoDao.deleteAll();
+	}
 	
 	@Test
 	public void parquearVehiculo() {
@@ -41,11 +54,21 @@ public class RepositorioParqueoTest {
 		Parqueo parqueo = new ParqueoTestDataBuilder().conVehiculo(vehiculo).build();
 		
 		// Act
-		boolean parqueado = repositorio.entrada(parqueo);
-		//dao.delete(repositorio.obtener(vehiculo.getPlaca()).getId());
-		//repositorioVehiculos.eliminar(vehiculo.getId());
+		boolean parqueado = repositorioParqueo.entrada(parqueo);
 		
 		// Assert
 		 Assert.assertTrue(parqueado);
+	}
+
+	@Test
+	public void salidaVehiculo() {
+		// Arrange
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
+		
+		// Act
+		boolean salida    = repositorioParqueo.salida(vehiculo.getPlaca(), new Date(), "0 min", 0) != null;
+		
+		// Assert
+		 Assert.assertFalse(salida);
 	}
 }

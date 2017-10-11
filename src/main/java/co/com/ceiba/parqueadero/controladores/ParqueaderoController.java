@@ -99,6 +99,5 @@ public class ParqueaderoController {
 	@GetMapping(path = "/all")
 	public ResponseEntity<List<Parqueo>> getAllParqueos() {
 		return new ResponseEntity<>(operario.listadoParqueos(), HttpStatus.OK);
-		//return new ResponseEntity<>(repositorioParqueo.obtenerParqueos(), HttpStatus.OK);
 	}
 }
