@@ -18,9 +18,9 @@ import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioParqueo;
 import co.com.ceiba.parqueadero.dominio.repositorio.RepositorioVehiculo;
 import co.com.ceiba.parqueadero.testdatabuilder.VehiculoTestDataBuilder;
 
-//@RunWith(SpringRunner.class)
+@RunWith(SpringRunner.class)
 public class OperarioTest {
-	/*
+	
 	@Test
 	public void entradaVehiculoParqueaderoTest() {
 		// Arrange
@@ -31,6 +31,7 @@ public class OperarioTest {
 		when(respositorioVehiculo.agregar(vehiculo)).thenReturn(vehiculo);
 		
 		RepositorioParqueo respositorioParqueo = mock(RepositorioParqueo.class);
+		when(respositorioParqueo.diponibilidad(vehiculo.getTipo())).thenReturn(true);
 		when(respositorioParqueo.obtenerVehiculoParqueadoPorPlaca(vehiculo.getPlaca())).thenReturn(vehiculo);
 		when(respositorioParqueo.entrada(any(Parqueo.class))).thenReturn(true);
 		
@@ -41,5 +42,5 @@ public class OperarioTest {
 		
 		// Assert
 		assertTrue(parqueado);
-	}*/
+	}
 }
